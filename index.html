@@ -18,7 +18,6 @@
 <body>
   <header>
     <h2>Code Journal</h2>
-
   </header>
   <main>
     <div class="container">
@@ -26,33 +25,30 @@
         <form class="jornal-entry">
           <h1>New Entry</h1>
           <div class="row">
-            <div class="column-half">
+            <div class="column-half column-full">
               <img src="images/placeholder-image-square.jpg">
             </div>
-            <div class="column-half form-inputs">
+            <div class="column-half column-full form-inputs">
               <div>
-                <label>Title
-                  <input type="text" required>
+                <label for="title">Title
+                  <input type="text" required id="title">
 
                 </label>
-
               </div>
               <div>
-                <label>Photo URL
-                  <input type="text" required>
+                <label for="photoUrl">Photo URL
+                  <input type="url" required class="image" id="photoUrl" >
                 </label>
               </div>
-
             </div>
-
             <div>
             </div>
           </div>
-          <div class="form-inputs"> Notes
-            <div>
-              <textarea required></textarea>
+            <div class="form-inputs">
+           <label for="notes" class="notes">Notes</label>
+
+              <textarea required id="notes"></textarea>
             </div>
-          </div>
           <button>Save</button>
         </form>
       </div>
