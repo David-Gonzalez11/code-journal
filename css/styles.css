@@ -72,13 +72,9 @@ textarea {
   border-radius: 4px;
   margin-top: 15px;
   margin-bottom: 0;
-  margin-left: 8px;
+  margin-left: 0;
 }
 
 .column-half {
   width: 50%;
-}
-
-.notes {
-  padding-left: 8px;
 }

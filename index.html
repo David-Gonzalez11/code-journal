@@ -25,14 +25,13 @@
         <form class="jornal-entry">
           <h1>New Entry</h1>
           <div class="row">
-            <div class="column-half column-full">
+            <div class="column-half">
               <img src="images/placeholder-image-square.jpg">
             </div>
-            <div class="column-half column-full form-inputs">
+            <div class="column-half form-inputs">
               <div>
                 <label for="title">Title
                   <input type="text" required id="title">
-
                 </label>
               </div>
               <div>
@@ -45,8 +44,12 @@
             </div>
           </div>
           <div class="form-inputs">
-            <label for="notes" class="notes">Notes</label>
-            <textarea required id="notes"></textarea>
+            <div class="row">
+              <div class="column-full">
+                <label for="notes" class="notes">Notes</label>
+                <textarea required id="notes"></textarea>
+              </div>
+            </div>
             <button>Save</button>
           </div>
         </form>
