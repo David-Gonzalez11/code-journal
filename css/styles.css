@@ -18,7 +18,7 @@ h2 {
   font-weight: 500;
 }
 
-header {
+.header {
   background-color: rgb(86 43 128);
   width: 100%;
   margin-top: 0;
@@ -88,4 +88,14 @@ a {
   left: 2rem;
   top: 1.5rem;
   color: white;
+  text-decoration: none;
+}
+
+.new {
+  position: relative;
+  bottom: 4rem;
+}
+
+.row {
+  display: flex;
 }

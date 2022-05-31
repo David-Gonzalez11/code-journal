@@ -1,5 +1,7 @@
 var $entryForm = document.querySelector('form');
 $entryForm.addEventListener('submit', handleSubmit);
+var newBtn = document.querySelector('.new');
+newBtn.addEventListener('click', viewEntryForm);
 function handleInput(event) {
   img.setAttribute('src', input.value);
 }
@@ -7,6 +9,7 @@ function handleInput(event) {
 var img = document.querySelector('img');
 
 function handleSubmit(event) {
+  event.preventDefault();
   var notes = $entryForm.elements.notes.value;
   var title = $entryForm.elements.title.value;
   var photoUrl = $entryForm.elements.photoUrl.value;
@@ -23,18 +26,13 @@ function handleSubmit(event) {
     $entryForm.reset();
   }
 }
-
 var input = document.querySelector('#photoUrl');
 input.addEventListener('input', handleInput);
-
 var photoUrl = document.querySelector('.image');
 photoUrl.addEventListener('input', handleInput);
-
 // render entry startts//
 function renderEntry(entry) {
-  window.addEventListener('DOMContentLoaded', renderEntry);
   var list = document.createElement('li');
-  list.setAttribute('data-entry-id', entry.id);
 
   var firstDiv = document.createElement('div');
   firstDiv.setAttribute('class', 'row');
@@ -49,9 +47,9 @@ function renderEntry(entry) {
   description.textContent = entry.notes;
 
   var image = document.createElement('img');
-  image.setAttribute('src', entry.photo);
+  image.setAttribute('src', entry.photoUrl);
 
-  var heading = document.createElement('h2');
+  var heading = document.createElement('h3');
   heading.textContent = entry.title;
 
   list.appendChild(firstDiv);
@@ -60,26 +58,45 @@ function renderEntry(entry) {
   firstDiv.appendChild(secondcolHalf);
   secondcolHalf.appendChild(heading);
   secondcolHalf.appendChild(description);
-  var ul = document.querySelector('ul');
+  var ul = document.querySelector('.parent');
   ul.append(list);
+  // console.log(list);
+
   return list;
-
 }
-
-var $entriesView = document.querySelector('#entries');
-$entriesView.addEventListener('click', viewEntryForm);
-var entryTextChange = document.querySelector('.entry-text');
+window.addEventListener('DOMContentLoaded', function (event) {
+  var $entriesList = document.querySelector('.parent');
+  $entriesList.addEventListener('click', editClick);
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i] !== null) {
+      var entry = renderEntry(data.entries[i]);
+      $entriesList.appendChild(entry);
+    }
+  }
+});
+function editClick() {
+}
+var $entriesView = document.getElementById('entries');
+$entriesView.addEventListener('click', viewEntries);
 function viewEntryForm(event) {
+  event.preventDefault();
   data.view = 'entry-form';
-  $entriesView.className = '.hidden';
   $entryForm.className = '';
-
+  if (event.target === newBtn) {
+    $EntryFormView.className = '';
+    $EntriesView.classList.add('hidden');
+  }
 }
-
 function viewEntries(event) {
+  event.preventDefault();
   data.view = 'entries';
+
   $entriesView.className = '';
   $entryForm.classList.add('hidden');
-  entryTextChange.textContent = 'Entries';
-
+  if (event.target === $entriesView) {
+    $EntryFormView.classList.add('hidden');
+    $EntriesView.classList = '';
+  }
 }
+var $EntryFormView = document.querySelector('div[data-view="entry-form"]');
+var $EntriesView = document.querySelector("div[data-view='entries']");
