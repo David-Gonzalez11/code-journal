@@ -64,7 +64,9 @@ function renderEntry(entry) {
 
   return list;
 }
-window.addEventListener('DOMContentLoaded', function (event) {
+window.addEventListener('DOMContentLoaded', DOMContentLoaded);
+
+function DOMContentLoaded(event) {
   var $entriesList = document.querySelector('.parent');
   $entriesList.addEventListener('click', editClick);
   for (var i = 0; i < data.entries.length; i++) {
@@ -72,31 +74,45 @@ window.addEventListener('DOMContentLoaded', function (event) {
       var entry = renderEntry(data.entries[i]);
       $entriesList.appendChild(entry);
     }
+
   }
-});
-function editClick() {
 }
-var $entriesView = document.getElementById('entries');
-$entriesView.addEventListener('click', viewEntries);
+function editClick(event) {
+
+}
+var $entriesLink = document.getElementById('entries');
+$entriesLink.addEventListener('click', viewEntries);
 function viewEntryForm(event) {
-  event.preventDefault();
   data.view = 'entry-form';
   $entryForm.className = '';
+  $EntriesView.className = 'hidden';
+
   if (event.target === newBtn) {
     $EntryFormView.className = '';
     $EntriesView.classList.add('hidden');
   }
 }
 function viewEntries(event) {
-  event.preventDefault();
   data.view = 'entries';
-
-  $entriesView.className = '';
+  $EntriesView.className = '';
   $entryForm.classList.add('hidden');
-  if (event.target === $entriesView) {
+  if (event.target === $entriesLink) {
     $EntryFormView.classList.add('hidden');
     $EntriesView.classList = '';
+    data.view = 'entries';
   }
 }
 var $EntryFormView = document.querySelector('div[data-view="entry-form"]');
 var $EntriesView = document.querySelector("div[data-view='entries']");
+var $save = document.querySelector('.save');
+$save.addEventListener('click', viewEntries);
+
+function stayOnSamePageAfterRefresh() {
+  if (data.view === 'entries' ||
+    data.editing !== null) {
+    viewEntries();
+  } else {
+    viewEntryForm();
+  }
+}
+stayOnSamePageAfterRefresh();

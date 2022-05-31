@@ -99,3 +99,7 @@ a {
 .row {
   display: flex;
 }
+
+.entries-text {
+  padding-left: 30px;
+}
