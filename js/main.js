@@ -29,3 +29,57 @@ input.addEventListener('input', handleInput);
 
 var photoUrl = document.querySelector('.image');
 photoUrl.addEventListener('input', handleInput);
+
+// render entry startts//
+function renderEntry(entry) {
+  window.addEventListener('DOMContentLoaded', renderEntry);
+  var list = document.createElement('li');
+  list.setAttribute('data-entry-id', entry.id);
+
+  var firstDiv = document.createElement('div');
+  firstDiv.setAttribute('class', 'row');
+
+  var colHalfdiv = document.createElement('div');
+  colHalfdiv.setAttribute('class', 'column-half');
+
+  var secondcolHalf = document.createElement('div');
+  secondcolHalf.setAttribute('class', 'column-half');
+
+  var description = document.createElement('p');
+  description.textContent = entry.notes;
+
+  var image = document.createElement('img');
+  image.setAttribute('src', entry.photo);
+
+  var heading = document.createElement('h2');
+  heading.textContent = entry.title;
+
+  list.appendChild(firstDiv);
+  firstDiv.appendChild(colHalfdiv);
+  colHalfdiv.appendChild(image);
+  firstDiv.appendChild(secondcolHalf);
+  secondcolHalf.appendChild(heading);
+  secondcolHalf.appendChild(description);
+  var ul = document.querySelector('ul');
+  ul.append(list);
+  return list;
+
+}
+
+var $entriesView = document.querySelector('#entries');
+$entriesView.addEventListener('click', viewEntryForm);
+var entryTextChange = document.querySelector('.entry-text');
+function viewEntryForm(event) {
+  data.view = 'entry-form';
+  $entriesView.className = '.hidden';
+  $entryForm.className = '';
+
+}
+
+function viewEntries(event) {
+  data.view = 'entries';
+  $entriesView.className = '';
+  $entryForm.classList.add('hidden');
+  entryTextChange.textContent = 'Entries';
+
+}

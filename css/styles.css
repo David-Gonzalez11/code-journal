@@ -78,3 +78,14 @@ textarea {
 .column-half {
   width: 50%;
 }
+
+li {
+  list-style: none;
+}
+
+a {
+  position: relative;
+  left: 2rem;
+  top: 1.5rem;
+  color: white;
+}
