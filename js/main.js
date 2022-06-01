@@ -38,22 +38,16 @@ photoUrl.addEventListener('input', handleInput);
 
 function renderEntry(entry) {
   var list = document.createElement('li');
-
   var firstDiv = document.createElement('div');
   firstDiv.setAttribute('class', 'row');
-
   var colHalfdiv = document.createElement('div');
   colHalfdiv.setAttribute('class', 'column-half');
-
   var secondcolHalf = document.createElement('div');
   secondcolHalf.setAttribute('class', 'column-half');
-
   var description = document.createElement('p');
   description.textContent = entry.notes;
-
   var image = document.createElement('img');
   image.setAttribute('src', entry.photoUrl);
-
   var heading = document.createElement('h3');
   heading.textContent = entry.title;
 
@@ -78,11 +72,9 @@ function DOMContentLoaded(event) {
       var entry = renderEntry(data.entries[i]);
       $entriesList.appendChild(entry);
     }
-
   }
 }
 function editClick(event) {
-
 }
 var $entriesLink = document.getElementById('entries');
 $entriesLink.addEventListener('click', viewEntries);
@@ -90,28 +82,15 @@ function viewEntryForm(event) {
   data.view = 'entry-form';
   $entryForm.className = '';
   $EntriesView.className = 'hidden';
-
-  // if (event.target === newBtn) {
-  //   $EntryFormView.className = '';
-  //   $EntriesView.classList.add('hidden');
-  // }
 }
 function viewEntries(event) {
   data.view = 'entries';
   $EntriesView.className = '';
   $entryForm.classList.add('hidden');
-  // if (event.target === $entriesLink) {
-  //   $EntryFormView.classList.add('hidden');
-  //   $EntriesView.classList = '';
-  //   data.view = 'entries';
-  // }
-
   if (data.entries.length === 0) {
     noEntries.classList.remove('hidden');
-
   } else {
     noEntries.classList.add('hidden');
-
   }
 }
 var $EntryFormView = document.querySelector('div[data-view="entry-form"]');
