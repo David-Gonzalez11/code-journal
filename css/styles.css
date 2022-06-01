@@ -85,8 +85,8 @@ li {
 
 a {
   position: relative;
-  left: 2rem;
-  top: 1.5rem;
+  left: 1rem;
+  top: 1.9rem;
   color: white;
   text-decoration: none;
 }
@@ -102,4 +102,9 @@ a {
 
 .entries-text {
   padding-left: 30px;
+}
+
+h5 {
+  display: flex;
+  justify-content: center;
 }
