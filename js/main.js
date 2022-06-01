@@ -25,6 +25,7 @@ function handleSubmit(event) {
     data.nextEntryId++;
     data.entries.unshift(formValues);
     img.setAttribute('src', 'images/placeholder-image-square.jpg');
+    renderEntry(formValues);
     $entryForm.reset();
   }
 }
@@ -126,10 +127,3 @@ function stayOnSamePageAfterRefresh() {
   }
 }
 stayOnSamePageAfterRefresh();
-function appendTheDom(event) {
-  var $ul = document.querySelector('.parent');
-  for (var i = 0; i < data.entries.length; i++) {
-    var $newEntry = renderEntry(data.entries[i]);
-    $ul.appendChild($newEntry);
-  }
-}
