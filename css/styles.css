@@ -120,3 +120,11 @@ ul {
   padding-top: 1%;
   font-size: medium;
 }
+
+i {
+  position: relative;
+  right: 8rem;
+  color: rgb(86 43 129);
+  font-size: 30px;
+  float: right;
+}

@@ -3,12 +3,14 @@ $entryForm.addEventListener('submit', handleSubmit);
 var $newBtn = document.querySelector('.new');
 $newBtn.addEventListener('click', viewEntryForm);
 var noEntries = document.querySelector('h5');
-// var EntriesText = document.querySelector('.entries-text');
-function handleInput(event) {
-  img.setAttribute('src', input.value);
-}
-
 var img = document.querySelector('img');
+var input = document.querySelector('#photoUrl');
+input.addEventListener('input', handleInput);
+
+var EntriesText = document.querySelector('.entry-text');
+function handleInput(event) {
+  img.setAttribute('src', photoUrl.value);
+}
 
 function handleSubmit(event) {
   event.preventDefault();
@@ -27,22 +29,51 @@ function handleSubmit(event) {
     img.setAttribute('src', 'images/placeholder-image-square.jpg');
     renderEntry(formValues);
     $entryForm.reset();
+
+  } else {
+    var updatedEntryId = data.editing.id;
+    var $updatedTitle = $entryForm.elements.title.value;
+    var $updatedNotes = $entryForm.elements.notes.value;
+    var $updatedPhoto = $entryForm.elements.photoUrl.value;
+    var updatedEntry = {
+      title: $updatedTitle,
+      notes: $updatedNotes,
+      photo: $updatedPhoto,
+      id: updatedEntryId
+    };
+    var indexToUpdate = data.entries.findIndex(entry => (Number(entry.id) === Number(updatedEntryId)));
+    data.entries[indexToUpdate] = updatedEntry;
+    data.editing = null;
+    replaceExisitngEntry(updatedEntry);
+
   }
 }
+function replaceExisitngEntry(entry) {
+  event.preventDefault();
 
-var input = document.querySelector('#photoUrl');
-input.addEventListener('input', handleInput);
+  var updatedNode = renderEntry(entry);
+  var entryAttribute = '[data-entry-id="' + entry.id + '"]';
+  var oldListItem = document.querySelector(entryAttribute);
+
+  oldListItem.replaceWith(updatedNode);
+}
+
 var photoUrl = document.querySelector('.image');
 photoUrl.addEventListener('input', handleInput);
 // render entry startts//
-
 function renderEntry(entry) {
   var list = document.createElement('li');
+  list.setAttribute('data-entry-id', entry.id);
   var firstDiv = document.createElement('div');
+
   firstDiv.setAttribute('class', 'row');
+
   var colHalfdiv = document.createElement('div');
+
   colHalfdiv.setAttribute('class', 'column-half');
+
   var secondcolHalf = document.createElement('div');
+
   secondcolHalf.setAttribute('class', 'column-half');
   var description = document.createElement('p');
   description.textContent = entry.notes;
@@ -50,13 +81,15 @@ function renderEntry(entry) {
   image.setAttribute('src', entry.photoUrl);
   var heading = document.createElement('h3');
   heading.textContent = entry.title;
-
+  var editIcon = document.createElement('i');
+  editIcon.className = 'fa-solid fa-pencil';
   list.appendChild(firstDiv);
   firstDiv.appendChild(colHalfdiv);
   colHalfdiv.appendChild(image);
   firstDiv.appendChild(secondcolHalf);
   secondcolHalf.appendChild(heading);
   secondcolHalf.appendChild(description);
+  heading.appendChild(editIcon);
   var ul = document.querySelector('.parent');
   ul.prepend(list);
 
@@ -75,13 +108,38 @@ function DOMContentLoaded(event) {
   }
 }
 function editClick(event) {
+  // console.log('clicked');
+
+  var toEdit = event.target.closest('li');
+  var entryId = toEdit.getAttribute('data-entry-id');
+  var entry = data.entries.find(entry => entry.id == (entryId));
+  if (event.target.tagName === 'I') {
+    EntriesText.textContent = 'Edit Entry';
+
+    $EntriesView.className = 'hidden';
+    $entryForm.className = '';
+    data.editing = entry;
+    // console.log(data.editing);
+    var title = document.querySelector('#title');
+    var notes = document.querySelector('#notes');
+    var photoUrl = document.querySelector('#photoUrl');
+    // var existingEntryId = document.querySelector('#existingEntryId');
+    title.value = (data.editing.title);
+    notes.value = (data.editing.notes);
+    photoUrl.value = (data.editing.photoUrl);
+    img.setAttribute('src', photoUrl.value);
+    // existingEntryId.value = (entryId);
+
+  }
 }
+// this is not relevent to the problem you are trying to fix//
 var $entriesLink = document.getElementById('entries');
 $entriesLink.addEventListener('click', viewEntries);
 function viewEntryForm(event) {
   data.view = 'entry-form';
   $entryForm.className = '';
   $EntriesView.className = 'hidden';
+
 }
 function viewEntries(event) {
   data.view = 'entries';
@@ -106,3 +164,8 @@ function stayOnSamePageAfterRefresh() {
   }
 }
 stayOnSamePageAfterRefresh();
+var $ul = document.querySelector('ul');
+$ul.addEventListener('click', clicksOnParent);
+function clicksOnParent(event) {
+  // console.log('i was clicked');
+}
