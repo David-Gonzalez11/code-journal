@@ -6,12 +6,18 @@ var noEntries = document.querySelector('h5');
 var img = document.querySelector('img');
 var input = document.querySelector('#photoUrl');
 input.addEventListener('input', handleInput);
-
+var $photoUrl = document.querySelector('.image');
+$photoUrl.addEventListener('input', handleInput);
 var EntriesText = document.querySelector('.entry-text');
+var $EntryFormView = document.querySelector('div[data-view="entry-form"]');
+var $EntriesView = document.querySelector("div[data-view='entries']");
+var $save = document.querySelector('.save');
+$save.addEventListener('click', viewEntries);
+var $entriesLink = document.getElementById('entries');
+$entriesLink.addEventListener('click', viewEntries);
 function handleInput(event) {
-  img.setAttribute('src', photoUrl.value);
+  img.setAttribute('src', $photoUrl.value);
 }
-
 function handleSubmit(event) {
   event.preventDefault();
   var notes = $entryForm.elements.notes.value;
@@ -21,68 +27,59 @@ function handleSubmit(event) {
     var formValues = {
       title,
       notes,
-      photoUrl,
+      photo: photoUrl,
       id: data.nextEntryId
     };
     data.nextEntryId++;
     data.entries.unshift(formValues);
     img.setAttribute('src', 'images/placeholder-image-square.jpg');
     renderEntry(formValues);
-    $entryForm.reset();
-
   } else {
     var updatedEntryId = data.editing.id;
+
     var $updatedTitle = $entryForm.elements.title.value;
     var $updatedNotes = $entryForm.elements.notes.value;
-    var $updatedPhoto = $entryForm.elements.photoUrl.value;
-    var updatedEntry = {
-      title: $updatedTitle,
-      notes: $updatedNotes,
-      photo: $updatedPhoto,
-      id: updatedEntryId
-    };
-    var indexToUpdate = data.entries.findIndex(entry => (Number(entry.id) === Number(updatedEntryId)));
-    data.entries[indexToUpdate] = updatedEntry;
-    data.editing = null;
-    replaceExisitngEntry(updatedEntry);
+    var $updatedPhotoUrl = $entryForm.elements.photoUrl.value;
 
   }
+  var updatedEntry = {
+    title: $updatedTitle,
+    notes: $updatedNotes,
+    photo: $updatedPhotoUrl,
+    id: updatedEntryId
+  };
+  var indexToUpdate = data.entries.findIndex(entry => (Number(entry.id) === Number(updatedEntryId)));
+  data.entries[indexToUpdate] = updatedEntry;
+  data.editing = null;
+  location.reload();
 }
 function replaceExisitngEntry(entry) {
-  event.preventDefault();
-
   var updatedNode = renderEntry(entry);
   var entryAttribute = '[data-entry-id="' + entry.id + '"]';
   var oldListItem = document.querySelector(entryAttribute);
 
+  oldListItem.remove();
   oldListItem.replaceWith(updatedNode);
-}
 
-var photoUrl = document.querySelector('.image');
-photoUrl.addEventListener('input', handleInput);
+}
 // render entry startts//
 function renderEntry(entry) {
   var list = document.createElement('li');
   list.setAttribute('data-entry-id', entry.id);
   var firstDiv = document.createElement('div');
-
   firstDiv.setAttribute('class', 'row');
-
   var colHalfdiv = document.createElement('div');
-
   colHalfdiv.setAttribute('class', 'column-half');
-
   var secondcolHalf = document.createElement('div');
-
   secondcolHalf.setAttribute('class', 'column-half');
   var description = document.createElement('p');
   description.textContent = entry.notes;
   var image = document.createElement('img');
-  image.setAttribute('src', entry.photoUrl);
+  image.setAttribute('src', entry.photo);
   var heading = document.createElement('h3');
   heading.textContent = entry.title;
   var editIcon = document.createElement('i');
-  editIcon.className = 'fa-solid fa-pencil';
+  editIcon.className = 'fas fa-pen';
   list.appendChild(firstDiv);
   firstDiv.appendChild(colHalfdiv);
   colHalfdiv.appendChild(image);
@@ -90,13 +87,34 @@ function renderEntry(entry) {
   secondcolHalf.appendChild(heading);
   secondcolHalf.appendChild(description);
   heading.appendChild(editIcon);
-  var ul = document.querySelector('.parent');
+  var ul = document.querySelector('ul');
   ul.prepend(list);
-
   return list;
 }
-window.addEventListener('DOMContentLoaded', DOMContentLoaded);
 
+function editClick(event) {
+  data.view = 'entry-form';
+  var toEdit = event.target.closest('li');
+  var entryId = toEdit.getAttribute('data-entry-id');
+  var entry = data.entries.find(entry => entry.id == (entryId));
+  if (event.target.tagName === 'I') {
+    EntriesText.textContent = 'Edit Entry';
+    $EntriesView.className = 'hidden';
+    $entryForm.className = '';
+    data.editing = entry;
+    var $title = document.querySelector('#title');
+    var $notes = document.querySelector('#notes');
+    var $photoUrl = document.querySelector('#photoUrl');
+    // var existingEntryId = document.querySelector('#existingEntryId');
+    $title.value = (data.editing.title);
+    $notes.value = (data.editing.notes);
+    $photoUrl.value = (data.editing.photo);
+    img.setAttribute('src', $photoUrl.value);
+    // existingEntryId.value = (entry.id);
+
+  }
+}
+window.addEventListener('DOMContentLoaded', DOMContentLoaded);
 function DOMContentLoaded(event) {
   var $entriesList = document.querySelector('.parent');
   $entriesList.addEventListener('click', editClick);
@@ -104,42 +122,15 @@ function DOMContentLoaded(event) {
     if (data.entries[i] !== null) {
       var entry = renderEntry(data.entries[i]);
       $entriesList.appendChild(entry);
+      stayOnSamePageAfterRefresh();
+
     }
   }
 }
-function editClick(event) {
-  // console.log('clicked');
-
-  var toEdit = event.target.closest('li');
-  var entryId = toEdit.getAttribute('data-entry-id');
-  var entry = data.entries.find(entry => entry.id == (entryId));
-  if (event.target.tagName === 'I') {
-    EntriesText.textContent = 'Edit Entry';
-
-    $EntriesView.className = 'hidden';
-    $entryForm.className = '';
-    data.editing = entry;
-    // console.log(data.editing);
-    var title = document.querySelector('#title');
-    var notes = document.querySelector('#notes');
-    var photoUrl = document.querySelector('#photoUrl');
-    // var existingEntryId = document.querySelector('#existingEntryId');
-    title.value = (data.editing.title);
-    notes.value = (data.editing.notes);
-    photoUrl.value = (data.editing.photoUrl);
-    img.setAttribute('src', photoUrl.value);
-    // existingEntryId.value = (entryId);
-
-  }
-}
-// this is not relevent to the problem you are trying to fix//
-var $entriesLink = document.getElementById('entries');
-$entriesLink.addEventListener('click', viewEntries);
 function viewEntryForm(event) {
   data.view = 'entry-form';
   $entryForm.className = '';
   $EntriesView.className = 'hidden';
-
 }
 function viewEntries(event) {
   data.view = 'entries';
@@ -151,11 +142,6 @@ function viewEntries(event) {
     noEntries.classList.add('hidden');
   }
 }
-var $EntryFormView = document.querySelector('div[data-view="entry-form"]');
-var $EntriesView = document.querySelector("div[data-view='entries']");
-var $save = document.querySelector('.save');
-$save.addEventListener('click', viewEntries);
-
 function stayOnSamePageAfterRefresh() {
   if (data.view === 'entries') {
     viewEntries();
@@ -163,9 +149,7 @@ function stayOnSamePageAfterRefresh() {
     viewEntryForm();
   }
 }
-stayOnSamePageAfterRefresh();
 var $ul = document.querySelector('ul');
 $ul.addEventListener('click', clicksOnParent);
 function clicksOnParent(event) {
-  // console.log('i was clicked');
 }
