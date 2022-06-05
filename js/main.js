@@ -34,33 +34,39 @@ function handleSubmit(event) {
     data.entries.unshift(formValues);
     img.setAttribute('src', 'images/placeholder-image-square.jpg');
     renderEntry(formValues);
-  } else if (data.editing !== null) {
+  } else {
     var updatedEntryId = data.editing.id;
-    console.log('updated Entry ID', updatedEntryId);
 
     var $updatedTitle = $entryForm.elements.title.value;
     var $updatedNotes = $entryForm.elements.notes.value;
     var $updatedPhotoUrl = $entryForm.elements.photoUrl.value;
 
+    var updatedEntry = {
+      title: $updatedTitle,
+      notes: $updatedNotes,
+      photo: $updatedPhotoUrl,
+      id: updatedEntryId
+    };
+    var indexToUpdate = data.entries.findIndex(entry => (Number(entry.id) === Number(updatedEntryId)));
+    data.entries[indexToUpdate] = updatedEntry;
+    data.editing = null;
+    renderEntry(updatedEntry);
+    replaceExisitngEntry(updatedEntry);
+    location.reload();
+
   }
-  var updatedEntry = {
-    title: $updatedTitle,
-    notes: $updatedNotes,
-    photo: $updatedPhotoUrl,
-    id: updatedEntryId
-  };
-  var indexToUpdate = data.entries.findIndex(entry => (Number(entry.id) === Number(updatedEntryId)));
-  data.entries[indexToUpdate] = updatedEntry;
-  data.editing = null;
-  location.reload();
+  $entryForm.reset();
+  $EntryFormView.classList.add('hidden');
+  $EntriesView.className = ('');
+
 }
+
 function replaceExisitngEntry(entry) {
+  event.preventDefault();
   var updatedNode = renderEntry(entry);
   var entryAttribute = '[data-entry-id="' + entry.id + '"]';
   var oldListItem = document.querySelector(entryAttribute);
-
-  oldListItem.remove();
-  replaceExisitngEntry(updatedNode);
+  oldListItem.replaceWith(updatedNode);
 
 }
 // render entry startts//
@@ -94,6 +100,7 @@ function renderEntry(entry) {
 }
 
 function editClick(event) {
+  // var list = document.querySelector('li');
   data.view = 'entry-form';
   var toEdit = event.target.closest('li');
   var entryId = toEdit.getAttribute('data-entry-id');
@@ -111,8 +118,7 @@ function editClick(event) {
     $notes.value = (data.editing.notes);
     $photoUrl.value = (data.editing.photo);
     img.setAttribute('src', $photoUrl.value);
-    existingEntryId.value = (entry.id);
-
+    existingEntryId.value = (data.editing.id);
   }
 }
 window.addEventListener('DOMContentLoaded', DOMContentLoaded);
