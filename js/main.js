@@ -52,7 +52,7 @@ function handleSubmit(event) {
   var indexToUpdate = data.entries.findIndex(entry => (Number(entry.id) === Number(updatedEntryId)));
   data.entries[indexToUpdate] = updatedEntry;
   data.editing = null;
-  // location.reload();
+  location.reload();
 }
 function replaceExisitngEntry(entry) {
   var updatedNode = renderEntry(entry);
@@ -106,12 +106,12 @@ function editClick(event) {
     var $title = document.querySelector('#title');
     var $notes = document.querySelector('#notes');
     var $photoUrl = document.querySelector('#photoUrl');
-    // var existingEntryId = document.querySelector('#existingEntryId');
+    var existingEntryId = document.querySelector('#existingEntryId');
     $title.value = (data.editing.title);
     $notes.value = (data.editing.notes);
     $photoUrl.value = (data.editing.photo);
     img.setAttribute('src', $photoUrl.value);
-    // existingEntryId.value = (entry.id);
+    existingEntryId.value = (entry.id);
 
   }
 }
