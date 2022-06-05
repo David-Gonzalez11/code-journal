@@ -34,8 +34,9 @@ function handleSubmit(event) {
     data.entries.unshift(formValues);
     img.setAttribute('src', 'images/placeholder-image-square.jpg');
     renderEntry(formValues);
-  } else {
+  } else if (data.editing !== null) {
     var updatedEntryId = data.editing.id;
+    console.log('updated Entry ID', updatedEntryId);
 
     var $updatedTitle = $entryForm.elements.title.value;
     var $updatedNotes = $entryForm.elements.notes.value;
@@ -51,7 +52,7 @@ function handleSubmit(event) {
   var indexToUpdate = data.entries.findIndex(entry => (Number(entry.id) === Number(updatedEntryId)));
   data.entries[indexToUpdate] = updatedEntry;
   data.editing = null;
-  location.reload();
+  // location.reload();
 }
 function replaceExisitngEntry(entry) {
   var updatedNode = renderEntry(entry);
@@ -59,7 +60,7 @@ function replaceExisitngEntry(entry) {
   var oldListItem = document.querySelector(entryAttribute);
 
   oldListItem.remove();
-  oldListItem.replaceWith(updatedNode);
+  replaceExisitngEntry(updatedNode);
 
 }
 // render entry startts//
@@ -131,6 +132,9 @@ function viewEntryForm(event) {
   data.view = 'entry-form';
   $entryForm.className = '';
   $EntriesView.className = 'hidden';
+  $entryForm.reset();
+  img.setAttribute('src', 'images/placeholder-image-square.jpg');
+  EntriesText.textContent = 'New Entry';
 }
 function viewEntries(event) {
   data.view = 'entries';
