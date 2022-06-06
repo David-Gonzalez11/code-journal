@@ -36,6 +36,7 @@ function handleSubmit(event) {
     renderEntry(formValues);
   } else {
     var updatedEntryId = data.editing.id;
+
     var $updatedTitle = $entryForm.elements.title.value;
     var $updatedNotes = $entryForm.elements.notes.value;
     var $updatedPhotoUrl = $entryForm.elements.photoUrl.value;
@@ -50,12 +51,14 @@ function handleSubmit(event) {
     data.entries[indexToUpdate] = updatedEntry;
     data.editing = null;
     replaceExisitngEntry(updatedEntry);
-    location.reload();
+    // location.reload();
   }
   $entryForm.reset();
   $EntryFormView.classList.add('hidden');
   $EntriesView.className = ('');
+
 }
+
 function replaceExisitngEntry(entry) {
   event.preventDefault();
   var updatedNode = renderEntry(entry);
