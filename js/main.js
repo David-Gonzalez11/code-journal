@@ -16,6 +16,13 @@ $save.addEventListener('click', viewEntries);
 var $entriesLink = document.getElementById('entries');
 $entriesLink.addEventListener('click', viewEntries);
 var ul = document.querySelector('ul');
+var modal = document.querySelector('#modal');
+var overlay = document.querySelector('#overlay');
+var confirmModal = document.querySelector('#confirm-modal');
+
+// modal.addEventListener('click', editClick)
+var deleteEntry = document.querySelector('h6');
+deleteEntry.addEventListener('click', showModal);
 function handleInput(event) {
   img.setAttribute('src', $photoUrl.value);
 }
@@ -165,4 +172,40 @@ function newButton(event) {
     $entryForm.className = '';
     $EntriesView.classList.add('hidden');
   }
+}
+function showModal(event) {
+  if (event.target === deleteEntry) {
+    modal.classList.remove('hidden');
+    overlay.classList.remove('hidden');
+  }
+}
+
+var cancelBtn = document.querySelector('#close-modal-btn');
+cancelBtn.addEventListener('click', removeEntry);
+
+function removeEntry(event) {
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+
+}
+var currentEntry = data.editing.id;
+confirmModal.addEventListener('click', deleteAnEntry);
+function deleteAnEntry(event) {
+
+  var $li = document.querySelectorAll('li');
+  for (var i = 0; i < data.entries.length; i++) {
+
+    var entryIdValue = $li[i].getAttribute('data-entry-id');
+    var parsedValue = parseInt(entryIdValue);
+
+    if (currentEntry === parsedValue) {
+      data.entries.splice(i, 1);
+      $li[i].remove();
+      viewEntries();
+    }
+  }
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+  data.editing = null;
+  data.view = ('entries');
 }
