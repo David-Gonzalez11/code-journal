@@ -63,9 +63,7 @@ function handleSubmit(event) {
 function replaceExisitngEntry(entry) {
   var updatedNode = renderEntry(entry);
   var entryAttribute = '[data-entry-id="' + entry.id + '"]';
-  console.log(entry.id);
   var oldListItem = document.querySelector(entryAttribute);
-  console.log('old list item', oldListItem);
   oldListItem.replaceWith(updatedNode);
 
 }
@@ -164,7 +162,6 @@ function clicksOnParent(event) {
 }
 
 function newButton(event) {
-  console.log('cliced');
   if (event.target === $newBtn) {
     $entryForm.className = '';
     $EntriesView.classList.add('hidden');
