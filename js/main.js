@@ -209,3 +209,18 @@ function deleteAnEntry(event) {
   data.editing = null;
   data.view = ('entries');
 }
+function searchEntries() {
+  console.log('I am working');
+  var listElements = document.querySelector('li');
+  var searchQuery = document.getElementById('searchbox').value;
+  for (var i = 0; i < listElements.length; i++) {
+    if (listElements[i].textContent.toLowerCase().includes(searchQuery.toLowerCase())) {
+      listElements[i].classList.add('');
+    } else {
+      listElements.classList.add('hidden');
+    }
+  }
+
+}
+var searchBtn = document.querySelector('.search');
+searchBtn.addEventListener('click', searchEntries);
