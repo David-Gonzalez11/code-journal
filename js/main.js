@@ -210,14 +210,13 @@ function deleteAnEntry(event) {
   data.view = ('entries');
 }
 function searchEntries() {
-  console.log('I am working');
-  var listElements = document.querySelector('li');
+  var listElements = document.querySelectorAll('li');
   var searchQuery = document.getElementById('searchbox').value;
   for (var i = 0; i < listElements.length; i++) {
     if (listElements[i].textContent.toLowerCase().includes(searchQuery.toLowerCase())) {
-      listElements[i].classList.add('');
+      listElements[i].className = ' ';
     } else {
-      listElements.classList.add('hidden');
+      listElements[i].className = 'hidden';
     }
   }
 
