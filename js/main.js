@@ -8,7 +8,7 @@ var input = document.querySelector('#photoUrl');
 input.addEventListener('input', handleInput);
 var $photoUrl = document.querySelector('.image');
 $photoUrl.addEventListener('input', handleInput);
-var EntriesText = document.querySelector('.entry-text');
+var entriesText = document.querySelector('.entry-text');
 var $EntryFormView = document.querySelector('div[data-view="entry-form"]');
 var $EntriesView = document.querySelector("div[data-view='entries']");
 var $save = document.querySelector('.save');
@@ -96,13 +96,12 @@ function renderEntry(entry) {
 }
 
 function editClick(event) {
-  // var list = document.querySelector('li');
   data.view = 'entry-form';
   var toEdit = event.target.closest('li');
   var entryId = toEdit.getAttribute('data-entry-id');
   var entry = data.entries.find(entry => entry.id == (entryId));
   if (event.target.tagName === 'I') {
-    EntriesText.textContent = 'Edit Entry';
+    entriesText.textContent = 'Edit Entry';
     $EntriesView.className = 'hidden';
     $entryForm.className = '';
     data.editing = entry;
@@ -117,8 +116,8 @@ function editClick(event) {
     existingEntryId.value = (data.editing.id);
   }
 }
-window.addEventListener('DOMContentLoaded', DOMContentLoaded);
-function DOMContentLoaded(event) {
+window.addEventListener('DOMContentLoaded', domContentLoaded);
+function domContentLoaded(event) {
   var $entriesList = document.querySelector('.parent');
   $entriesList.addEventListener('click', editClick);
   for (var i = 0; i < data.entries.length; i++) {
@@ -136,7 +135,7 @@ function viewEntryForm(event) {
   $EntriesView.className = 'hidden';
   $entryForm.reset();
   img.setAttribute('src', 'images/placeholder-image-square.jpg');
-  EntriesText.textContent = 'New Entry';
+  entriesText.textContent = 'New Entry';
 }
 function viewEntries(event) {
   data.view = 'entries';
