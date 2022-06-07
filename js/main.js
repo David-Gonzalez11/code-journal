@@ -1,7 +1,7 @@
 var $entryForm = document.querySelector('form');
 $entryForm.addEventListener('submit', handleSubmit);
 var $newBtn = document.querySelector('.new');
-$newBtn.addEventListener('click', viewEntryForm);
+$newBtn.addEventListener('click', newButton);
 var noEntries = document.querySelector('h5');
 var img = document.querySelector('img');
 var input = document.querySelector('#photoUrl');
@@ -15,6 +15,7 @@ var $save = document.querySelector('.save');
 $save.addEventListener('click', viewEntries);
 var $entriesLink = document.getElementById('entries');
 $entriesLink.addEventListener('click', viewEntries);
+var ul = document.querySelector('ul');
 function handleInput(event) {
   img.setAttribute('src', $photoUrl.value);
 }
@@ -33,7 +34,8 @@ function handleSubmit(event) {
     data.nextEntryId++;
     data.entries.unshift(formValues);
     img.setAttribute('src', 'images/placeholder-image-square.jpg');
-    renderEntry(formValues);
+    ul.prepend(renderEntry(formValues)
+    );
   } else {
     var updatedEntryId = data.editing.id;
 
@@ -51,7 +53,6 @@ function handleSubmit(event) {
     data.entries[indexToUpdate] = updatedEntry;
     data.editing = null;
     replaceExisitngEntry(updatedEntry);
-    // location.reload();
   }
   $entryForm.reset();
   $EntryFormView.classList.add('hidden');
@@ -60,10 +61,11 @@ function handleSubmit(event) {
 }
 
 function replaceExisitngEntry(entry) {
-  event.preventDefault();
   var updatedNode = renderEntry(entry);
   var entryAttribute = '[data-entry-id="' + entry.id + '"]';
+  console.log(entry.id);
   var oldListItem = document.querySelector(entryAttribute);
+  console.log('old list item', oldListItem);
   oldListItem.replaceWith(updatedNode);
 
 }
@@ -92,8 +94,6 @@ function renderEntry(entry) {
   secondcolHalf.appendChild(heading);
   secondcolHalf.appendChild(description);
   heading.appendChild(editIcon);
-  var ul = document.querySelector('ul');
-  ul.prepend(list);
   return list;
 }
 
@@ -148,6 +148,7 @@ function viewEntries(event) {
     noEntries.classList.remove('hidden');
   } else {
     noEntries.classList.add('hidden');
+    noEntries.textContent = '';
   }
 }
 function stayOnSamePageAfterRefresh() {
@@ -160,4 +161,12 @@ function stayOnSamePageAfterRefresh() {
 var $ul = document.querySelector('ul');
 $ul.addEventListener('click', clicksOnParent);
 function clicksOnParent(event) {
+}
+
+function newButton(event) {
+  console.log('cliced');
+  if (event.target === $newBtn) {
+    $entryForm.className = '';
+    $EntriesView.classList.add('hidden');
+  }
 }
