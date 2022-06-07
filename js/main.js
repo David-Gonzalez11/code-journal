@@ -18,6 +18,7 @@ $entriesLink.addEventListener('click', viewEntries);
 var ul = document.querySelector('ul');
 var modal = document.querySelector('#modal');
 var overlay = document.querySelector('#overlay');
+var confirmModal = document.querySelector('#confirm-modal');
 
 // modal.addEventListener('click', editClick)
 var deleteEntry = document.querySelector('h6');
@@ -187,15 +188,17 @@ function removeEntry(event) {
   overlay.classList.add('hidden');
 
 }
+var currentEntry = data.editing.id;
+confirmModal.addEventListener('click', deleteAnEntry);
+function deleteAnEntry(event) {
 
-var confirmModal = document.querySelector('#confirm-modal');
-confirmModal.addEventListener('click', deleteEntryFunction);
-function deleteEntryFunction(event) {
   var $li = document.querySelectorAll('li');
-  var currentEntry = data.editing.id;
   for (var i = 0; i < data.entries.length; i++) {
-    var entryId = $li[i].getAttribute('data-entry-id');
-    if (currentEntry === parseInt(entryId)) {
+
+    var entryIdValue = $li[i].getAttribute('data-entry-id');
+    var parsedValue = parseInt(entryIdValue);
+
+    if (currentEntry === parsedValue) {
       data.entries.splice(i, 1);
       $li[i].remove();
       viewEntries();
