@@ -201,3 +201,8 @@ h6 {
   font-size: x-large;
   border: none;
 }
+
+.search {
+  position: relative;
+  bottom: 2rem;
+}

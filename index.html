@@ -65,12 +65,19 @@
 
         </form>
       </div>
+      <form class="entries-form">
       <div data-view="entries">
         <div class="container">
           <h1 class="entries-text">Entries</h1>
           <button class="new">NEW</button>
           <h5 class="hidden">No new entries have been recorded</h5>
 
+        </div>
+        <div>
+          <label for="searchbox">
+            <input id="searchbox" type="search" placeholder="Search your entries">
+            <button class="search">Search</button>
+          </label>
         </div>
         <ul class="parent">
         </ul>
@@ -86,6 +93,7 @@
 
     </main>
   </div>
+  </form>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
